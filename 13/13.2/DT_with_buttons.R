@@ -30,7 +30,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-
   my_values <- reactiveValues(
     mtcars = mtcars2
   )
@@ -46,7 +45,7 @@ server <- function(input, output) {
   })
 
   observeEvent(input$click, {
-    index <- str_extract(input$click, "- ([0-9]+)",group = 1)
+    index <- str_extract(input$click, "- ([0-9]+)$", group = 1)
     my_values$mtcars <- my_values$mtcars |> filter(!rowid == index)
   })
 
