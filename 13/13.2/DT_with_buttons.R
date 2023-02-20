@@ -14,7 +14,7 @@ onclick <- glue(
 # button with onClick function
 button <- glue(
   "<a class='btn btn-danger' onclick=\"{onclick}\">
-        <i class=\"fas fa-trash\" role=\"presentation\" aria-label=\"trash icon\"></i> Borrar
+        <i class=\"fas fa-trash\" role=\"presentation\" aria-label=\"trash icon\"></i> Delete
       </a>"
 )
 
@@ -36,17 +36,29 @@ server <- function(input, output) {
 
   output$table <- renderDT({
     datatable(
-      data      = my_values$mtcars, # use proxy to avoid flickering
-      escape    = FALSE,
+      data = isolate(my_values$mtcars),
+      escape = FALSE,
       selection = "none",
-      rownames  = FALSE,
-      style     = "bootstrap"
+      rownames = TRUE, # https://github.com/rstudio/DT/issues/992
+      style = "bootstrap",
+      options = list(
+        columnDefs = list(
+          list(visible = FALSE, targets = c("rowid"))
+        )
+      )
     )
   })
+
+  dproxy <- dataTableProxy(outputId = "table")
 
   observeEvent(input$click, {
     index <- str_extract(input$click, "- ([0-9]+)$", group = 1)
     my_values$mtcars <- my_values$mtcars |> filter(!rowid == index)
+
+    replaceData(
+      proxy = dproxy,
+      data  = my_values$mtcars
+    )
   })
 
   output$model <- renderPrint({
