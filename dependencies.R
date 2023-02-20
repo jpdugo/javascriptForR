@@ -1,2 +1,4 @@
 library(DT)
 library(usethis)
+library(dplyr)
+library(stringr)
