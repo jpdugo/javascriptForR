@@ -48,7 +48,8 @@ server <- function(input, output) {
 
     optns <- list(
       columnDefs = list(
-        list(visible = FALSE, targets = c("rowid"))
+        list(visible = FALSE, targets = c("rowid")),
+        list(className = 'dt-center', targets = 1)
       )
     )
 
