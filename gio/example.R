@@ -16,5 +16,6 @@ arcs <- jsonlite::fromJSON(
 # gio(jsonlite::toJSON(arcs, dataframe = "rows")
 # )
 
-
+# with serialiser
+gio(arcs)
 
