@@ -3,6 +3,8 @@ library(shiny)
 library(glue)
 library(dplyr)
 library(stringr)
+library(purrr)
+library(shinyjs)
 
 mtcars2 <- mtcars |> tibble::rowid_to_column()
 
@@ -12,21 +14,29 @@ onclick <- glue(
 )
 
 # button with onClick function
-button <- glue(
-  "<a class='btn btn-danger' onclick=\"{onclick}\">
-        <i class=\"fas fa-trash\" role=\"presentation\" aria-label=\"trash icon\"></i> Delete
-      </a>"
+
+button <- map_chr(
+  .x = onclick,
+  .f = \(.x) div(
+    class = "btn-group",
+    a(
+      class   = "btn btn-danger",
+      onclick = .x,
+      icon("trash"),
+      "Delete"
+    )
+  ) |> as.character()
 )
 
 # add button to data.frame
-mtcars2 <- mtcars2 |> mutate(` ` = button, .before = "mpg")
+mtcars2 <- mtcars2 |>
+  mutate(` ` = button, .before = "mpg")
 
 ui <- fluidPage(
+  useShinyjs(),
   br(),
   fontawesome::fa_html_dependency(),
-  DTOutput("table"),
-  strong("Clicked Model:"),
-  verbatimTextOutput("model")
+  DTOutput("table")
 )
 
 server <- function(input, output) {
@@ -35,17 +45,20 @@ server <- function(input, output) {
   )
 
   output$table <- renderDT({
-    datatable(
-      data = isolate(my_values$mtcars),
-      escape = FALSE,
-      selection = "none",
-      rownames = TRUE, # https://github.com/rstudio/DT/issues/992
-      style = "bootstrap",
-      options = list(
-        columnDefs = list(
-          list(visible = FALSE, targets = c("rowid"))
-        )
+
+    optns <- list(
+      columnDefs = list(
+        list(visible = FALSE, targets = c("rowid"))
       )
+    )
+
+    datatable(
+      data      = isolate(my_values$mtcars),
+      escape    = FALSE,
+      selection = "none",
+      rownames  = FALSE, # https://github.com/rstudio/DT/issues/992
+      style     = "bootstrap",
+      options   = optns
     )
   })
 
@@ -56,13 +69,20 @@ server <- function(input, output) {
     my_values$mtcars <- my_values$mtcars |> filter(!rowid == index)
 
     replaceData(
-      proxy = dproxy,
-      data  = my_values$mtcars
+      proxy          = dproxy,
+      data           = my_values$mtcars,
+      rownames       = FALSE,
+      resetPaging    = FALSE,
+      clearSelection = FALSE
     )
-  })
 
-  output$model <- renderPrint({
-    print(input$click)
+    updateFilters(dproxy, my_values$mtcars)
+
+    alert(
+      glue(
+        "{input$click} deleted"
+      )
+    )
   })
 }
 
