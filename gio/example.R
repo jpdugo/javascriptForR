@@ -13,5 +13,8 @@ arcs <- jsonlite::fromJSON(
   ]'
 )
 
-gio(arcs)
+# gio(jsonlite::toJSON(arcs, dataframe = "rows")
+# )
+
+
 

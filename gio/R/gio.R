@@ -12,6 +12,9 @@ gio <- function(data, width = NULL, height = NULL, elementId = NULL) {
     data = data
   )
 
+  # replace serialiser
+  attr(x, 'TOJSON_FUNC') <- gio_serialiser
+
   # create widget
   htmlwidgets::createWidget(
     name = 'gio',
@@ -21,6 +24,11 @@ gio <- function(data, width = NULL, height = NULL, elementId = NULL) {
     package = 'gio',
     elementId = elementId
   )
+}
+
+# serialiser
+gio_serialiser <- function(x){
+  jsonify::to_json(x, unbox = TRUE)
 }
 
 #' Shiny bindings for gio
