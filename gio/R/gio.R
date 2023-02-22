@@ -6,28 +6,41 @@
 #'
 #' @export
 gio <- function(data, width = NULL, height = NULL, elementId = NULL) {
+  group <- NULL
+  deps <- NULL
+
+  # uses crosstalk
+  # can be improved adding methods
+  if (crosstalk::is.SharedData(data)) {
+    group <- data$groupName()
+    data  <- data$origData()
+    deps  <- crosstalk::crosstalkLibs()
+  }
+
 
   # forward options using x
-  x = list(
-    data = data
+  x <- list(
+    data      = data,
+    crosstalk = list(group = group)
   )
 
   # replace serialiser
-  attr(x, 'TOJSON_FUNC') <- gio_serialiser
+  attr(x, "TOJSON_FUNC") <- gio_serialiser
 
   # create widget
   htmlwidgets::createWidget(
-    name = 'gio',
-    x,
-    width = width,
-    height = height,
-    package = 'gio',
-    elementId = elementId
+    name         = "gio",
+    x            = x,
+    width        = width,
+    height       = height,
+    package      = "gio",
+    elementId    = elementId,
+    dependencies = deps
   )
 }
 
 # serialiser
-gio_serialiser <- function(x){
+gio_serialiser <- function(x) {
   jsonify::to_json(x, unbox = TRUE)
 }
 
@@ -48,13 +61,15 @@ gio_serialiser <- function(x){
 #' @name gio-shiny
 #'
 #' @export
-gioOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'gio', width, height, package = 'gio')
+gioOutput <- function(outputId, width = "100%", height = "400px") {
+  htmlwidgets::shinyWidgetOutput(outputId, "gio", width, height, package = "gio")
 }
 
 #' @rdname gio-shiny
 #' @export
 renderGio <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) {
+    expr <- substitute(expr)
+  } # force quoted
   htmlwidgets::shinyRenderWidget(expr, gioOutput, env, quoted = TRUE)
 }

@@ -13,10 +13,29 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
+        var sel_handle = new crosstalk.SelectionHandle();
+        sel_handle.setGroup(x.crosstalk.group);
+
         var container = document.getElementById(el.id);
         var controller = new GIO.Controller(el);
         controller.addData(x.data);
         controller.init();
+
+        function callback (selectedCountry) {
+          sel_handle.set([selectedCountry.ISOCode]);
+        }
+
+        controller.onCountryPicked(callback);
+
+        sel_handle.on("change", function(e) {
+
+        // selection comes from another widget
+        if (e.sender !== sel_handle) {
+          // clear the selection
+          // not possible with gio.js
+        }
+        controller.switchCountry(e.value[0]);
+});
 
       },
 
