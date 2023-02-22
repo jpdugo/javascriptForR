@@ -5,7 +5,7 @@
 #' @import htmlwidgets
 #'
 #' @export
-gio <- function(data, width = NULL, height = NULL, elementId = NULL) {
+gio <- function(data, width = NULL, height = NULL, elementId = NULL, ...) {
   group <- NULL
   deps <- NULL
 
@@ -20,6 +20,7 @@ gio <- function(data, width = NULL, height = NULL, elementId = NULL) {
 
   # forward options using x
   x <- list(
+    configs   = list(...),
     data      = data,
     crosstalk = list(group = group)
   )

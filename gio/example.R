@@ -52,3 +52,11 @@ bscols(
     config(displayModeBar = FALSE),
   gio(edges_sd)
 )
+
+# using configs
+
+gio(
+  arcs,
+  control = list(initCountry = 'US'),
+  color = list(selected = '#ff4d4d')
+)

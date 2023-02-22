@@ -17,7 +17,7 @@ HTMLWidgets.widget({
         sel_handle.setGroup(x.crosstalk.group);
 
         var container = document.getElementById(el.id);
-        var controller = new GIO.Controller(el);
+        var controller = new GIO.Controller(el, x.configs); // includes config
         controller.addData(x.data);
         controller.init();
 
@@ -28,14 +28,13 @@ HTMLWidgets.widget({
         controller.onCountryPicked(callback);
 
         sel_handle.on("change", function(e) {
-
-        // selection comes from another widget
-        if (e.sender !== sel_handle) {
-          // clear the selection
-          // not possible with gio.js
-        }
-        controller.switchCountry(e.value[0]);
-});
+          // selection comes from another widget
+          if (e.sender !== sel_handle) {
+            // clear the selection
+            // not possible with gio.js
+          }
+          controller.switchCountry(e.value[0]);
+        });
 
       },
 
