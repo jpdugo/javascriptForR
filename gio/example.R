@@ -56,7 +56,7 @@ bscols(
 # using configs
 
 gio(
-  arcs,
+  edges_sd,
   control = list(initCountry = 'US'),
-  color = list(selected = '#ff4d4d')
+  color   = list(selected = '#ff4d4d')
 )
