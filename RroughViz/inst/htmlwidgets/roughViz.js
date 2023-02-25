@@ -14,9 +14,7 @@ HTMLWidgets.widget({
 
       new roughViz.Bar({
           element: '#' + el.id,
-          data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
-          labels: 'flavor',
-          values: 'price'
+          data: x.data
       });
 
       },

@@ -1,26 +1,32 @@
-#' <Add Title>
-#'
-#' <Add Description>
 #'
 #' @import htmlwidgets
 #'
 #' @export
-roughViz <- function(data, width = NULL, height = NULL, elementId = NULL) {
-
+roughViz_bar <- function(labels, values, width = NULL, height = NULL, elementId = NULL) {
   # forward options using x
-  x = list(
-    data = data
+  x <- list(
+    data = list(
+      labels = labels,
+      values = values
+    )
   )
+
+  attr(x, "TOJSON_FUNC") <- gio_serialiser
 
   # create widget
   htmlwidgets::createWidget(
-    name = 'roughViz',
+    name = "roughViz",
     x,
     width = width,
     height = height,
-    package = 'RroughViz',
+    package = "RroughViz",
     elementId = elementId
   )
+}
+
+# serialiser
+gio_serialiser <- function(x) {
+  jsonlite::toJSON(x, dataframe = "columns")
 }
 
 #' Shiny bindings for roughViz
@@ -40,13 +46,15 @@ roughViz <- function(data, width = NULL, height = NULL, elementId = NULL) {
 #' @name roughViz-shiny
 #'
 #' @export
-roughVizOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'roughViz', width, height, package = 'RroughViz')
+roughVizOutput <- function(outputId, width = "100%", height = "400px") {
+  htmlwidgets::shinyWidgetOutput(outputId, "roughViz", width, height, package = "RroughViz")
 }
 
 #' @rdname roughViz-shiny
 #' @export
 renderRoughViz <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) {
+    expr <- substitute(expr)
+  } # force quoted
   htmlwidgets::shinyRenderWidget(expr, roughVizOutput, env, quoted = TRUE)
 }
