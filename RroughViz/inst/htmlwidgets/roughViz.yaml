@@ -1,0 +1,6 @@
+dependencies:
+  - name: roughViz
+    version: 1.0.6
+    src: htmlwidgets/roughViz
+    script: roughViz.min.js
+
