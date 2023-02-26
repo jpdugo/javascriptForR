@@ -10,7 +10,14 @@
 #'
 #' @import htmlwidgets
 #' @examples
-#' roughViz_bar(labels = c('one', 'two'), values = 1:2, roughness =  1, color = "red", font = "gaegu", highlight = "orange")
+#' roughViz_bar(
+#'   labels    = c("one", "two"),
+#'   values    = 1:2,
+#'   roughness = 1,
+#'   color     = "red",
+#'   font      = "gaegu",
+#'   highlight = "orange"
+#' )
 #' @export
 roughViz_bar <- function(labels,
                          values,
