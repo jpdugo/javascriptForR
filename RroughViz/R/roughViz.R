@@ -1,7 +1,6 @@
 #' @title Create a Bar Plot
 #'
-#' @param labels \code{character} The label associated to each bar
-#' @param values \code{numeric} The value of associated to each bar
+#' @param data \code{list} A list of named vectors containing the data to be supplied.
 #' @param roughness \code{character} More roughness correspond to a sloppier looking graph
 #' @param width
 #' @param height
@@ -10,29 +9,32 @@
 #'
 #' @import htmlwidgets
 #' @examples
-#' roughViz_bar(
-#'   labels    = c("one", "two"),
-#'   values    = 1:2,
+#' roughViz(
+#'   data = list(
+#'     labels = c("one", "two"),
+#'     values = 1:2
+#'   ),
 #'   roughness = 1,
-#'   color     = "red",
-#'   font      = "gaegu",
+#'   type = "Donut",
+#'   color = "red",
+#'   font = "gaegu",
 #'   highlight = "orange"
 #' )
 #' @export
-roughViz_bar <- function(labels,
-                         values,
+roughViz <- function(data,
                          roughness,
+                         type = c("Bar", "BarH", "Donut", "Line", "Pie", "Scatter", "StackedBar"),
                          width = NULL,
                          height = NULL,
                          elementId = NULL,
                          ...) {
+  match.arg(type, c("Bar", "BarH", "Donut", "Line", "Pie", "Scatter", "StackedBar"))
+
   # forward options using x
   x <- list(
-    data = list(
-      labels = labels,
-      values = values
-    ),
+    data = data,
     roughness = roughness,
+    type = type,
     ...
   )
 
