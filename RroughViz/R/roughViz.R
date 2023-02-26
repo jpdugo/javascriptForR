@@ -1,17 +1,26 @@
+#' @title Create a Bar Plot
+#'
+#' @param labels \code{character} The label associated to each bar
+#' @param values \code{numeric} The value of associated to each bar
+#' @param roughness \code{character} More roughness correspond to a sloppier looking graph
+#' @param width
+#' @param height
+#' @param elementId
 #'
 #' @import htmlwidgets
 #'
 #' @export
-roughViz_bar <- function(labels, values, width = NULL, height = NULL, elementId = NULL) {
+roughViz_bar <- function(labels, values, roughness, width = NULL, height = NULL, elementId = NULL) {
   # forward options using x
   x <- list(
     data = list(
       labels = labels,
       values = values
-    )
+    ),
+    roughness = roughness
   )
 
-  attr(x, "TOJSON_FUNC") <- gio_serialiser
+  attr(x, "TOJSON_FUNC") <- serialiser
 
   # create widget
   htmlwidgets::createWidget(
@@ -25,7 +34,7 @@ roughViz_bar <- function(labels, values, width = NULL, height = NULL, elementId 
 }
 
 # serialiser
-gio_serialiser <- function(x) {
+serialiser <- function(x) {
   jsonlite::toJSON(x, dataframe = "columns")
 }
 

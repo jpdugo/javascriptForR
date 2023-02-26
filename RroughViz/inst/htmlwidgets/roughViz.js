@@ -14,7 +14,8 @@ HTMLWidgets.widget({
 
       new roughViz.Bar({
           element: '#' + el.id,
-          data: x.data
+          data: x.data,
+          roughness: x.roughness
       });
 
       },
