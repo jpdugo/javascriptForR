@@ -10,7 +10,8 @@ roughViz_bar(
   roughness,
   width = NULL,
   height = NULL,
-  elementId = NULL
+  elementId = NULL,
+  ...
 )
 }
 \arguments{
@@ -20,7 +21,7 @@ roughViz_bar(
 
 \item{roughness}{\code{character} More roughness correspond to a sloppier looking graph}
 
-\item{elementId}{}
+\item{...}{Additional optional arguments passed to roughViz.Bar. see \url{https://github.com/jwilber/roughViz#roughvizbar}}
 }
 \description{
 Create a Bar Plot

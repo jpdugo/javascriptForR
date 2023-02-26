@@ -6,11 +6,18 @@
 #' @param width
 #' @param height
 #' @param elementId
+#' @param ... Additional optional arguments passed to roughViz.Bar. see \url{https://github.com/jwilber/roughViz#roughvizbar}
 #'
 #' @import htmlwidgets
 #'
 #' @export
-roughViz_bar <- function(labels, values, roughness, width = NULL, height = NULL, elementId = NULL) {
+roughViz_bar <- function(labels,
+                         values,
+                         roughness,
+                         width = NULL,
+                         height = NULL,
+                         elementId = NULL,
+                         ...) {
   # forward options using x
   x <- list(
     data = list(
