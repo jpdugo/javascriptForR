@@ -26,3 +26,6 @@ roughViz_bar(
 \description{
 Create a Bar Plot
 }
+\examples{
+roughViz_bar(labels = c('one', 'two'), values = 1:2, roughness =  1, color = "red", font = "gaegu", highlight = "orange")
+}

@@ -12,11 +12,19 @@ HTMLWidgets.widget({
 
       renderValue: function(x) {
 
-      new roughViz.Bar({
+        let data_main = {
           element: '#' + el.id,
           data: x.data,
           roughness: x.roughness
-      });
+        };
+
+        let keys = Object.keys(x).slice(2);
+
+        keys.forEach((key, index) => {
+            data_main[key] = x[key]
+        });
+
+        new roughViz.Bar(data_main);
 
       },
 

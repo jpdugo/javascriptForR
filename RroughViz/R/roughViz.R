@@ -9,7 +9,8 @@
 #' @param ... Additional optional arguments passed to roughViz.Bar. see \url{https://github.com/jwilber/roughViz#roughvizbar}
 #'
 #' @import htmlwidgets
-#'
+#' @examples
+#' roughViz_bar(labels = c('one', 'two'), values = 1:2, roughness =  1, color = "red", font = "gaegu", highlight = "orange")
 #' @export
 roughViz_bar <- function(labels,
                          values,
@@ -24,7 +25,8 @@ roughViz_bar <- function(labels,
       labels = labels,
       values = values
     ),
-    roughness = roughness
+    roughness = roughness,
+    ...
   )
 
   attr(x, "TOJSON_FUNC") <- serialiser
