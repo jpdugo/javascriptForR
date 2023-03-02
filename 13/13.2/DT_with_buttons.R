@@ -10,7 +10,7 @@ mtcars2 <- mtcars |> tibble::rowid_to_column()
 
 # on click function
 onclick <- glue(
-  "Shiny.setInputValue('click', '{rownames(mtcars)} - {mtcars2$rowid}')"
+  "Shiny.setInputValue('click', '{rownames(mtcars)} - {mtcars2$rowid}'); this.style.backgroundColor = 'gray';"
 )
 
 # button with onClick function
